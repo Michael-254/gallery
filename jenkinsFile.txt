@@ -3,6 +3,13 @@
 //    tools {
 //        nodejs 'Node-19'
 //    }
+//post {
+        //failure {
+            //mail to: 'mwangimike15@gmail.com',
+                 //subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+                 //body: "Something is wrong with ${env.BUILD_NUMBER}"
+        //}
+    //}
 //    stages {
 //        stage('Clone Repo'){
 //            steps{
@@ -22,12 +29,12 @@
 //        }
 //         stage('Deploy to Heroku') {
 //           steps {
-//             sh 'git push https://mwangimike15:f4c6f91d-943c-4268-8282-59dea08600dc@git.heroku.com/gallery-moringa-course.git master'
+//             sh 'git push https://mwangi******:f4c6******************8@git.heroku.com/gallery-moringa-course.git master'
 //           }
 //         }
 //         stage('slack notification') {
 //           steps {
-//             slackSend color: 'good', message: "id 22 https://gallery-moringa-course.herokuapp.com", sendAsText: true
+//             slackSend color: 'good', message: "id ${env.BUILD_NUMBER} https://gallery-moringa-course.herokuapp.com", sendAsText: true
 //           }
 //        }
 
