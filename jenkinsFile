@@ -1,0 +1,42 @@
+pipeline {
+   agent any
+   tools {
+       nodejs 'Node-19'
+   }
+post {
+        failure {
+            mail to: 'mwangimike15@gmail.com',
+                 subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+                 body: "Something is wrong with ${env.BUILD_NUMBER}"
+        }
+    }
+   stages {
+       stage('Clone Repo'){
+           steps{
+               git 'https://github.com/Michael-254/gallery'
+           }
+       }
+       stage('install dependancies'){
+           steps{
+               sh 'npm install'
+               sh 'npm install express'
+           }
+       }
+       stage('Run Tests') {
+          steps { 
+            sh 'npm test'
+          }
+       }
+        stage('Deploy to Heroku') {
+          steps {
+            sh 'git push https://mwangi******:f4c6******************8@git.heroku.com/gallery-moringa-course.git master'
+          }
+        }
+        stage('slack notification') {
+          steps {
+            slackSend color: 'good', message: "id ${env.BUILD_NUMBER} https://gallery-moringa-course.herokuapp.com", sendAsText: true
+          }
+       }
+
+   }
+}
